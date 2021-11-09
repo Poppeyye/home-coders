@@ -1,50 +1,28 @@
-class Car:
+from binance import Client
 
-    def __init__(self, speed=0):
-        self.speed = speed
-        self.odometer = 0
-        self.time = 0
+from binance_session import connect_API
 
-    def say_state(self):
-        print("I'm going {} kph!".format(self.speed))
 
-    def accelerate(self):
-        self.speed += 5
+class CryptoInfo:
 
-    def brake(self):
-        if self.speed < 5:
-            self.speed = 0
-        else:
-            self.speed -= 5
+    def __init__(self):
+        self.connection = connect_API()
 
-    def step(self):
-        self.odometer += self.speed
-        self.time += 1
-
-    def average_speed(self):
-        if self.time != 0:
-            return self.odometer / self.time
-        else:
-            pass
+    def get_current_price(self, symbol: str = 'BTCUSDT'):
+        def search(s, tickers):
+            return [element for element in tickers if element['symbol'] == s]
+        return search(symbol, self.connection.get_all_tickers())
 
 
 if __name__ == '__main__':
 
-    my_car = Car()
-    print("I'm a car!")
+    crypto_info = CryptoInfo()
+    print("Connecting to binance API")
+    if crypto_info.connection:
+        print("Connection succesful")
+
     while True:
-        action = input("What should I do? [A]ccelerate, [B]rake, "
-                       "show [O]dometer, or show average [S]peed?").upper()
-        if action not in "ABOS" or len(action) != 1:
-            print("I don't know how to do that")
-            continue
-        if action == 'A':
-            my_car.accelerate()
-        elif action == 'B':
-            my_car.brake()
-        elif action == 'O':
-            print("The car has driven {} kilometers".format(my_car.odometer))
-        elif action == 'S':
-            print("The car's average speed was {} kph".format(my_car.average_speed()))
-        my_car.step()
-        my_car.say_state()
+        symbol = input("Introduce moneda y te doy el precio actual: ").upper()
+        print(crypto_info.get_current_price(symbol))
+        if symbol == 'FIN':
+            break
