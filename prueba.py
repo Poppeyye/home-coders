@@ -1,5 +1,4 @@
 from binance import Client
-
 from binance_session import connect_API
 
 
@@ -9,6 +8,11 @@ class CryptoInfo:
         self.connection = connect_API()
 
     def get_current_price(self, symbol: str = 'BTCUSDT'):
+        """
+        Get latest price from any symbol
+        :param symbol:
+        :return: dict
+        """
         def search(s, tickers):
             return [element for element in tickers if element['symbol'] == s]
         return search(symbol, self.connection.get_all_tickers())
