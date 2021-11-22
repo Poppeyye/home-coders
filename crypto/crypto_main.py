@@ -1,5 +1,4 @@
-from binance import Client
-from binance_session import connect_API
+from crypto.binance_session import connect_API
 
 
 class CryptoInfo:
